@@ -38,10 +38,26 @@ public class ProductDaoImplement implements ProductDao{
             products = session.createQuery("select p from Product p").getResultList();
             session.getTransaction().commit();
         }
+        for (Product product:products
+             ) {
+            System.out.println("Product " + product.getId().toString() + " " + product);
+
+        }
         return products;
     }
 
     @Override
+    public void deleteById(Long id) {
+        try (Session session = sessionFactoryUtils.getSession()) {
+            session.beginTransaction();
+            session.createQuery("delete from Product where id=:id")
+                            .setParameter("id",id)
+                                    .executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+/*    @Override
     public void deleteById(Long iddd) {
         try (Session session = sessionFactoryUtils.getSession()) {
             session.beginTransaction();
@@ -50,9 +66,8 @@ public class ProductDaoImplement implements ProductDao{
                     .setParameter("idd",iddd)
                     .executeUpdate();
             session.getTransaction().commit();
-
         }
-    }
+    }*/
 
     @Override
     public void saveOrUpdate(Product product) {

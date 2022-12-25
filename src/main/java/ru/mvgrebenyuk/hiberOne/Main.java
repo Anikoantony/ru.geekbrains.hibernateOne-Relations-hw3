@@ -1,14 +1,86 @@
 package ru.mvgrebenyuk.hiberOne;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.sound.midi.Soundbank;
+import java.util.List;
 
 public class Main {
 
+    private static SessionFactory factory;
+
+
+
     public static void main(String[] args) {
+
+        SessionFactoryUtils sessionFactoryUtils = new SessionFactoryUtils();
+        sessionFactoryUtils.init();
+        try {
+          /*
+            1. Создайте сущность Product (Long id, String title, int price) и таблицу
+          в базе данных для хранения объектов этой сущности;
+            2. Создайте класс ProductDao и реализуйте в нем логику выполнения
+            CRUD-операций над сущностью Product (Product findById(Long id), List<Product> findAll(),
+            void deleteById(Long id), Product saveOrUpdate(Product product));
+*/
+            ProductDao productDao = new ProductDaoImplement(sessionFactoryUtils);
+
+            // findById(Long id)
+            Product product = productDao.findById(1L);
+            System.out.println(product);
+
+            // findAll()
+            productDao.findAll();
+
+            // deleteById(Long id)
+            productDao.deleteById(1L);
+            productDao.findAll();
+
+            // Product saveOrUpdate(Product product));
+            productDao.saveOrUpdate(new Product("BAG",1800));
+            productDao.findAll();
+
+            /* ItemsDao itemsDao = new ItemsDaoImp(sessionFactoryUtils);
+
+            Items item = itemsDao.findByid(1L);
+            System.out.println("Класс ITEMS " + item.toString());
+
+            itemsDao.findAllItems();
+
+            Items items1 = itemsDao.findByName("BOX");
+            System.out.println("Items by name " + items1.toString());
+
+            itemsDao.save(new Items("BOAT"));
+
+            itemsDao.findAllItems();
+
+            itemsDao.updateByName(1L, "DOLL");
+            itemsDao.findAllItems();*/
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+      /*  try {
+            init();
+            Session session=null;
+            session=factory.getCurrentSession();
+            session.beginTransaction();
+            User user=session.get(User.class, 1L);
+            System.out.println(user);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new RuntimeException(e);
+        } finally {
+            shutdown();
+        }*/
+
+
+        /*
         SessionFactoryUtils sessionFactoryUtils = new SessionFactoryUtils();
         sessionFactoryUtils.init();
 
@@ -18,8 +90,9 @@ public class Main {
             System.out.println(newUserDao.findAll());
             System.out.println(newUserDao.findByName("Bob"));
             User user = new User("Ivan",7);
+           // user.setId(10L);
             newUserDao.save(user);
-            newUserDao.update(1L, "MAMBA");
+          //  newUserDao.update(2L, "MAMBA");
 
             System.out.println(newUserDao.findAll());
             newUserDao.testCash();
@@ -34,6 +107,7 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        */
 
        /* try {
                 UserDao userDao = new UserDaoImpl(sessionFactoryUtils);
@@ -63,5 +137,20 @@ public class Main {
         } */
 
 
+    }
+
+    public static void init()
+    {
+        factory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .buildSessionFactory();
+    }
+
+    public static void shutdown()
+    {
+        if (factory!=null)
+        {
+            factory.close();
+        }
     }
 }

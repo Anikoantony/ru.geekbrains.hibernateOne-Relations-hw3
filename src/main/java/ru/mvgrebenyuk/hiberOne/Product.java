@@ -5,6 +5,10 @@ import javax.persistence.*;
 @Entity // обязательная анатация для Hybernete
 @Table(name = "products")
 public class Product {
+    public Product(String title, int price) {
+        this.title = title;
+        this.price = price;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

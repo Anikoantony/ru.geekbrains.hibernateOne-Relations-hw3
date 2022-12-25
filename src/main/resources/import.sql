@@ -5,3 +5,7 @@ INSERT INTO products (title, price) VALUES ('Car', 8000), ('House', 100000), ('B
 DROP TABLE users IF EXISTS;
 CREATE TABLE IF NOT EXISTS users (id bigserial, score int, name VARCHAR(255), PRIMARY KEY (id));
 INSERT INTO users (name, score) VALUES ('Bob', 80), ('Jack', 80), ('John', 80);
+
+DROP TABLE  items IF EXISTS;
+CREATE TABLE IF NOT EXISTS items (id bigserial, title VARCHAR(255), PRIMARY KEY (id));
+INSERT INTO items (title) VALUES ('BOX'), ('MILK'), ('BRED');
