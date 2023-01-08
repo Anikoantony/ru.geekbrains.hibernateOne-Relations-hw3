@@ -34,7 +34,7 @@ public class Costumer {
 
     @ManyToMany
     @JoinTable
-            (name = "costumersproducts",
+            (name = "costumersproducts", //
                     joinColumns = @JoinColumn(name = "costumer_id"),
                     inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> productsMany;
