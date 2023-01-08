@@ -1,10 +1,15 @@
 package ru.mvgrebenyuk.hiberOne;
 
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
+
 public class CostumerDao {
+    @Autowired
     SessionFactoryUtils sessionFactoryUtils;
 
     public CostumerDao(SessionFactoryUtils sessionFactoryUtils) {

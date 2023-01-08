@@ -1,13 +1,16 @@
 package ru.mvgrebenyuk.hiberOne;
 
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.sound.midi.Soundbank;
 import java.util.List;
-
+@Component
 public class ProductDaoImplement implements ProductDao{
-
-    private SessionFactoryUtils sessionFactoryUtils;
+    @Autowired
+    SessionFactoryUtils sessionFactoryUtils;
+   
 
     public ProductDaoImplement(SessionFactoryUtils sessionFactoryUtils) {
         this.sessionFactoryUtils = sessionFactoryUtils;

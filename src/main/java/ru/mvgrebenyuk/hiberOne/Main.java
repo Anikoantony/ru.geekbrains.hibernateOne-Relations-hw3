@@ -4,7 +4,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import javax.sound.midi.Soundbank;
 import java.util.List;
 
@@ -16,8 +17,15 @@ public class Main {
 
 
     public static void main(String[] args) {
-// 2. Для обеих сущностей создаете Dao классы. Работу с SessionFactory выносите во вспомогательный класс;
-        SessionFactoryUtils sessionFactoryUtils = new SessionFactoryUtils();
+        // А) задаем контекст для SessionFactoryUtils
+        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext("ru.mvgrebenyuk.hiberOne");
+        // вытаскиваем коробку или бин из контекста:
+        SessionFactoryUtils sessionFactoryUtils = context.getBean(SessionFactoryUtils.class);
+
+                // 2. Для обеих сущностей создаете Dao классы. Работу с SessionFactory выносите во вспомогательный класс;
+
+
+        // Б) инициализируем sessionFactory из коробки
         sessionFactoryUtils.init();
         try {
           /*
@@ -25,7 +33,9 @@ public class Main {
             2. Для обеих сущностей создаете Dao классы. Работу с SessionFactory выносите во вспомогательный класс;
             3. * Создаете сервис, позволяющий по id покупателя узнать список купленных им товаров, и по id товара узнавать список покупателей этого товара;
            */
-            CostumerDao costumerDao= new CostumerDao(sessionFactoryUtils); //
+
+            // В) вытаскиваем бин покупателя заинжекнутого с фабрикой сессии:
+            CostumerDao costumerDao= context.getBean(CostumerDao.class); //
 
 
             // * Создаете сервис, позволяющий по id покупателя узнать список купленных им товаров,
@@ -40,8 +50,10 @@ public class Main {
            // -------------------------- findById(Long id)
            //  и по id товара узнавать список покупателей этого товара;
 
-            costumerDao.byIdCostumerFindProduct(1L); //
-            ProductDaoImplement productDao = new ProductDaoImplement(sessionFactoryUtils);
+            costumerDao.byIdCostumerFindProduct(1L);
+
+            // Г) вытаскиваем коробку продуктов из контекста
+            ProductDaoImplement productDao = context.getBean(ProductDaoImplement.class);
             productDao.byIdProductFindCostumer(1L);
 
 
@@ -79,6 +91,7 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        context.close();
 
 
       /*  try {
