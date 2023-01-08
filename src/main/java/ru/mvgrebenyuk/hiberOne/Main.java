@@ -25,13 +25,17 @@ public class Main {
             2. Для обеих сущностей создаете Dao классы. Работу с SessionFactory выносите во вспомогательный класс;
             3. * Создаете сервис, позволяющий по id покупателя узнать список купленных им товаров, и по id товара узнавать список покупателей этого товара;
            */
-            CostumerDao costumerDao= new CostumerDao(sessionFactoryUtils);
+            CostumerDao costumerDao= new CostumerDao(sessionFactoryUtils); //
 
 
             // * Создаете сервис, позволяющий по id покупателя узнать список купленных им товаров,
 
+            // по связи OneToMany
            Costumer costumer=costumerDao.findById(1L);
            System.out.println("Поиск по Id покупателя " + costumer);
+
+           // по связи ManyToMany
+           costumerDao.byIdCostumersFindManyProducts(1l);
 
            // -------------------------- findById(Long id)
            //  и по id товара узнавать список покупателей этого товара;

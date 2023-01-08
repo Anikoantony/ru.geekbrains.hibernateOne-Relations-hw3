@@ -32,6 +32,16 @@ public class Costumer {
     @OneToMany (mappedBy = "costumer", fetch = FetchType.LAZY)
     private List<Product> products;
 
+    @ManyToMany
+    @JoinTable
+            (name = "costumersproducts", //
+                    joinColumns = @JoinColumn(name = "costumer_id"),
+                    inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> productsMany;
+
+    public List<Product> getProductsMany() {
+        return productsMany;
+    }
 
     public String getFio() {
         return fio;

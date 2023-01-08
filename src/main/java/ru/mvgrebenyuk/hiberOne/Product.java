@@ -1,6 +1,7 @@
 package ru.mvgrebenyuk.hiberOne;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity // обязательная анатация для Hybernete
 @Table(name = "products")
@@ -21,6 +22,17 @@ public class Product {
 
     @Column(name="price")
     private int price;
+
+    @ManyToMany
+    @JoinTable
+            (name = "costumersproducts",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "costumer_id"))
+    private List<Costumer> costumers;
+
+    public List<Costumer> getCostumers() {
+        return costumers;
+    }
 
     @ManyToOne
     @JoinColumn(name = "costumers_id")
