@@ -10,6 +10,19 @@ public class CostumerDao {
     public CostumerDao(SessionFactoryUtils sessionFactoryUtils) {
         this.sessionFactoryUtils = sessionFactoryUtils;}
 
+    public void byIdCostumersFindManyProducts (long id)
+    {
+        Session session = sessionFactoryUtils.getSession();
+        session.beginTransaction();
+        Costumer costumer = session.get(Costumer.class,id);
+        System.out.println("Все продукты Many покупателя " + costumer);
+        for (Product product: costumer.getProductsMany()
+             ) {
+            System.out.println(product);
+
+        }
+    }
+
     public void byIdCostumerFindProduct (Long id)
     {
 

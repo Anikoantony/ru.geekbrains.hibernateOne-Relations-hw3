@@ -9,7 +9,9 @@ DROP TABLE products IF EXISTS;
 CREATE TABLE IF NOT EXISTS products (id bigserial, title VARCHAR(255), price int, costumers_id bigint REFERENCES costumers(id), PRIMARY KEY (id));
 INSERT INTO products (title, price, costumers_id) VALUES ('Car', 8000, 1), ('House', 100000, 1), ('Boat', 5000, 2), ('Boll', 5000, 3), ('Bag', 7000, 2) ;
 
-
+DROP TABLE costumersproducts IF EXISTS;
+CREATE TABLE IF NOT EXISTS costumersproducts (id bigserial, costumer_id bigint REFERENCES costumers(id), product_id bigint REFERENCES products(id), PRIMARY KEY (id));
+INSERT INTO costumersproducts (costumer_id, product_id) values (1,1), (1,2), (1,3), (2,1),(2,2),(3,3),(3,1),(3,2);
 
 DROP TABLE  items IF EXISTS;
 CREATE TABLE IF NOT EXISTS items (id bigserial, title VARCHAR(255), PRIMARY KEY (id));

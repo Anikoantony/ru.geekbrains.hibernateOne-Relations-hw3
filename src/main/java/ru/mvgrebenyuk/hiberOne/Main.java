@@ -30,8 +30,12 @@ public class Main {
 
             // * Создаете сервис, позволяющий по id покупателя узнать список купленных им товаров,
 
+            // по связи OneToMany
            Costumer costumer=costumerDao.findById(1L);
            System.out.println("Поиск по Id покупателя " + costumer);
+
+           // по связи ManyToMany
+           costumerDao.byIdCostumersFindManyProducts(1l);
 
            // -------------------------- findById(Long id)
            //  и по id товара узнавать список покупателей этого товара;
